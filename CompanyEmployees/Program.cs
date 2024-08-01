@@ -1,0 +1,59 @@
+using CompanyEmployees.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
+using static System.Net.WebRequestMethods;
+using System.Security.Cryptography.Xml;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc;
+using NLog;
+using Microsoft.EntityFrameworkCore;
+using CompanyEmployees.Repository;
+
+namespace CompanyEmployees
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+
+            // Add services to the container.
+            builder.Services.ConfigureCors();
+            builder.Services.ConfigureIISIntegration();
+            builder.Services.ConfigureLoggerService();
+            builder.Services.ConfigureeRepositoryManager();
+            builder.Services.ConfigureServiceManager();
+
+            builder.Services.ConfigureSqlContext(builder.Configuration);
+
+            builder.Services.AddControllers(); //method registers only the controllers in IServiceCollection and not Views or Pages because they are not required in the Web API project
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            /*builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();*/
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            else
+                app.UseHsts(); //HTTP Strict Transport Security is a security mechanism that tells the browser to only communicate with your website using HTTPS
+            app.UseHttpsRedirection();
+            app.UseStaticFiles(); 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                //used to configure the application to trust and process forwarded headers. These headers are typically added by proxies or load balancers, providing information about the original client request.
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+            app.UseCors("CorsPolicy");
+
+
+            app.UseAuthorization();
+
+
+            app.MapControllers(); // adds the endpoints from controller actions to the IEndpointRouteBuilder(used to add endpoints in our app)
+
+            app.Run();
+        }
+    }
+}
