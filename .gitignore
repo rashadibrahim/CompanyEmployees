@@ -33,6 +33,6 @@ build/
 _ReSharper*/
 *.ReSharper
 
-# Ignore internal log folder
 
 internal_log/
+.vs/

@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "..\Contracts\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "..\LoggerService\LoggerService.csproj", "{C2FA8E68-1380-40F7-96CA-834DD4E5A098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\Entities\Entities.csproj", "{5FE6C8CE-7341-481E-8172-9193C74A876E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "..\Entities\Entities.csproj", "{5FE6C8CE-7341-481E-8172-9193C74A876E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Contracts", "..\Service.Contracts\Service.Contracts.csproj", "{33207E24-239B-40C6-9D59-6C82A4B560A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Contracts", "..\Service.Contracts\Service.Contracts.csproj", "{33207E24-239B-40C6-9D59-6C82A4B560A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "..\Service\Service.csproj", "{F2623B77-346A-4EB5-8FFA-72A35BAE57DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "..\Service\Service.csproj", "{F2623B77-346A-4EB5-8FFA-72A35BAE57DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{8EC474EE-6CE9-4573-A0B0-740C7AD90337}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F2623B77-346A-4EB5-8FFA-72A35BAE57DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2623B77-346A-4EB5-8FFA-72A35BAE57DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2623B77-346A-4EB5-8FFA-72A35BAE57DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC474EE-6CE9-4573-A0B0-740C7AD90337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC474EE-6CE9-4573-A0B0-740C7AD90337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC474EE-6CE9-4573-A0B0-740C7AD90337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC474EE-6CE9-4573-A0B0-740C7AD90337}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

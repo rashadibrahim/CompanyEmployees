@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Microsoft.EntityFrameworkCore;
 using CompanyEmployees.Repository;
+using Contracts;
 
 namespace CompanyEmployees
 {
@@ -34,10 +35,11 @@ namespace CompanyEmployees
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-            else
+            var logger = app.Services.GetRequiredService<ILoggerManager>();
+            app.ConfigureExceptionHandler(logger);
+            if (app.Environment.IsProduction())
                 app.UseHsts(); //HTTP Strict Transport Security is a security mechanism that tells the browser to only communicate with your website using HTTPS
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles(); 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
