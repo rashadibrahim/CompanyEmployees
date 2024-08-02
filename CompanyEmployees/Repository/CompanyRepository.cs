@@ -14,5 +14,10 @@ namespace CompanyEmployees.Repository
             var companies =  FindAll(trackChanges).OrderBy(c => c.Name).ToList();
             return companies;
         }
+        public Company GetCompany(Guid companyId, bool trackChanges)
+        {
+            var company = FindByCondition(c => c.Id == companyId, trackChanges).SingleOrDefault();
+            return company;
+        }
     }
 }

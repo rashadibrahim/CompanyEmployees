@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -22,6 +23,16 @@ namespace Service
             new CompanyDto(c.Id, c.Name ?? "", String.Join(' ', c.Address, c.Country)))
                 .ToList();
             return companiesDto;
+        }
+        public CompanyDto GetCompany(Guid companyId, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if (company is null)
+            {
+                throw new CompanyNotFoundException(companyId);
+            }
+            var companyDto = new CompanyDto(company.Id, company.Name ?? "", String.Join(' ', company.Address, company.Country));
+            return companyDto;
         }
 
     }

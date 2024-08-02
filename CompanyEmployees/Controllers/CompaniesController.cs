@@ -20,5 +20,12 @@ namespace CompanyEmployees.Controllers
             return Ok(companies);
         }
 
+        [HttpGet("{id:guid}")]
+        public IActionResult GetCompanie(Guid id)
+        {
+            var company = _service.CompanyService.GetCompany(id, trackChanges: false);
+            return Ok(company);
+        }
+
     }
 }

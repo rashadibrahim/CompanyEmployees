@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.ErrorModel;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
@@ -17,16 +18,23 @@ namespace CompanyEmployees.Extensions
                 // This method allows you to define how the response to the client should be formatted and sent when an exception occurs.
                 appError.Run(async context =>
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.Response.ContentType = "application/json";
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
+                        if (contextFeature.Error is NotFoundException)
+                        {
+                            context.Response.StatusCode = StatusCodes.Status404NotFound;
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        }
                         logger.LogError($"Something went wrong: {contextFeature.Error}");
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error.",
+                            Message = contextFeature.Error.Message,
                         }.ToString());
                     }
                 });
