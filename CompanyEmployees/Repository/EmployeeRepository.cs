@@ -21,5 +21,10 @@ namespace CompanyEmployees.Repository
             return employee;
         }
 
+        public void CreateEmployeeForCompany(Employee employee)
+        {
+            Create(employee);
+        }
+
     }
 }

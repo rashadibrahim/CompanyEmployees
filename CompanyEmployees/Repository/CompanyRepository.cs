@@ -19,5 +19,17 @@ namespace CompanyEmployees.Repository
             var company = FindByCondition(c => c.Id == companyId, trackChanges).SingleOrDefault();
             return company;
         }
+
+        public void CreateCompany(Company company)
+        {
+            Create(company);
+        }
+
+        public IEnumerable<Company> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            var companies = FindByCondition(c => ids.Contains(c.Id), trackChanges).ToList();
+            return companies;
+        }
+
     }
 }

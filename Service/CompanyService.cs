@@ -35,5 +35,54 @@ namespace Service
             return companyDto;
         }
 
+        public CompanyDto CreateCompany(CompanyForCreationDto company)
+        {
+            var newCompany = new Company()
+            {
+                Name = company.Name,
+                Address = company.Address,
+                Country = company.Country
+            };
+            _repository.Company.CreateCompany(newCompany);
+            _repository.Save();
+            var companyDto = new CompanyDto(newCompany.Id, newCompany.Name ?? "", String.Join(' ', newCompany.Address, newCompany.Country));
+            return companyDto;
+        }
+
+        public IEnumerable<CompanyDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            
+            if (ids is null)
+                throw new IdParametersBadRequestException();
+            var companies = _repository.Company.GetByIds(ids, trackChanges);
+            if (ids.Count() != companies.Count())
+                throw new CollectionByIdsBadRequestException();
+
+            var companyDtos = companies.Select(c => new CompanyDto(c.Id, c.Name ?? "", String.Join(' ', c.Address, c.Country)));
+            return companyDtos;
+        }
+
+        public IEnumerable<CompanyDto> CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection)
+        {
+            if (companyCollection is null)
+                throw new CompanyCollectionBadRequest();
+
+            var newCompanies = companyCollection.Select(c => new Company()
+            {
+                Name = c.Name,
+                Country = c.Country,
+                Address = c.Address
+            });
+            var companyCollectionToReturn = new List<CompanyDto>();
+            foreach (var company in newCompanies)
+            {
+                
+                _repository.Company.CreateCompany(company);
+                _repository.Save();
+                companyCollectionToReturn.Add(new CompanyDto(company.Id, company.Name ?? "", String.Join(' ', company.Address, company.Country)));
+
+            }
+            return companyCollectionToReturn;
+        }
     }
 }

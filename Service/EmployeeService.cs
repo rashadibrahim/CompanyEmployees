@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -41,6 +42,25 @@ namespace Service
             }
             var employeeDto = new EmployeeDto(employee.Id, employee.Name, employee.Age, employee.Position);
             return employeeDto;
+        }
+
+        public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, false);
+            if (company is null)
+            {
+                throw new CompanyNotFoundException(companyId);
+            }
+            var newEmployee = new Employee()
+            {
+                CompanyId = companyId,
+                Name = employeeForCreation.Name,
+                Age = employeeForCreation.Age,
+                Position = employeeForCreation.Position
+            };
+            _repository.Employee.CreateEmployeeForCompany(newEmployee);
+            _repository.Save();
+            return new EmployeeDto(newEmployee.Id, newEmployee.Name, newEmployee.Age, newEmployee.Position);
         }
     }
 }

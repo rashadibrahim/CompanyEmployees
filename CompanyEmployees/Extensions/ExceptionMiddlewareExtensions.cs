@@ -26,6 +26,10 @@ namespace CompanyEmployees.Extensions
                         {
                             context.Response.StatusCode = StatusCodes.Status404NotFound;
                         }
+                        else if(contextFeature.Error is BadRequestException)
+                        {
+                            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        }
                         else
                         {
                             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
