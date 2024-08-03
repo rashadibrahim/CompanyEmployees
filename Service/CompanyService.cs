@@ -3,6 +3,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.ComponentModel.Design;
 
 namespace Service
 {
@@ -84,5 +85,30 @@ namespace Service
             }
             return companyCollectionToReturn;
         }
+
+        public void DeleteCompany(Guid companyId, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if (company is null)
+            {
+                throw new CompanyNotFoundException(companyId);
+            }
+            _repository.Company.DeleteCompany(company);
+            _repository.Save();
+        }
+
+        public void UpdateCompany(Guid companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if (company is null)
+            {
+                throw new CompanyNotFoundException(companyId);
+            }
+            company.Name = companyForUpdate.Name;
+            company.Address = companyForUpdate.Address;
+            company.Country = companyForUpdate.Country;
+            _repository.Save();
+        }
+
     }
 }

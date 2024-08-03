@@ -31,5 +31,10 @@ namespace CompanyEmployees.Repository
             return companies;
         }
 
+        public void DeleteCompany(Company company)
+        {
+            Delete(company);
+        }
+
     }
 }

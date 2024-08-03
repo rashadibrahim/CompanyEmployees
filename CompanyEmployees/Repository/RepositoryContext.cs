@@ -11,7 +11,7 @@ namespace CompanyEmployees.Repository
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Company>().HasData
+            /*modelBuilder.Entity<Company>().HasData
                 (
                 new Company
                 {
@@ -56,7 +56,7 @@ namespace CompanyEmployees.Repository
                     CompanyId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3")
                 }
 
-                );
+                );*/
         }
         public DbSet<Company>? Companies { get; set; }
         public DbSet<Employee>? Employees { get; set; }
