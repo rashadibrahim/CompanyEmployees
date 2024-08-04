@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System.Net;
+using System.Text.Json;
 
 namespace CompanyEmployees.Controllers
 {
@@ -17,10 +19,11 @@ namespace CompanyEmployees.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<IActionResult> GetCompanies()
+        public async Task<IActionResult> GetCompanies([FromQuery] CompanyParameters companyParameters)
         {
-            var companies = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
-            return Ok(companies);
+            var pagedResult = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false, companyParameters);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.companies);
         }
 
         [HttpGet("{id:guid}", Name = "CompanyById")]
