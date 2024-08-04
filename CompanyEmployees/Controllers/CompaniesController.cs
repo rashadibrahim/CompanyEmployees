@@ -1,4 +1,5 @@
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Service.Contracts;
@@ -10,6 +11,7 @@ using System.Text.Json;
 namespace CompanyEmployees.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/companies")]
     public class CompaniesController : ControllerBase
     {

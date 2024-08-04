@@ -29,7 +29,10 @@ namespace CompanyEmployees
             builder.Services.ConfigureResponseCaching();
             builder.Services.ConfigureRateLimitingOptions();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.ConfigureIdentity();
+            builder.Services.ConfigureJWT(builder.Configuration);
 
+            builder.Services.AddAuthentication();
             builder.Services.AddMemoryCache();
             builder.Services.AddControllers(); //method registers only the controllers in IServiceCollection and not Views or Pages because they are not required in the Web API project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,8 +60,8 @@ namespace CompanyEmployees
             app.UseCors("CorsPolicy");
             app.UseResponseCaching();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers(); // adds the endpoints from controller actions to the IEndpointRouteBuilder(used to add endpoints in our app)
 

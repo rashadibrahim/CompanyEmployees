@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -8,6 +9,7 @@ using System.Text.Json;
 namespace CompanyEmployees.Controllers
 {
     [Route("api/companies/{companyId}/employees")]
+    [Authorize]
     [ApiController]
     public class EmployeesController : ControllerBase
     {

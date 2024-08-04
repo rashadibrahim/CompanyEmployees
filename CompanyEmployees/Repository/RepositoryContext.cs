@@ -1,17 +1,33 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace CompanyEmployees.Repository
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<Company>().HasData
+            base.OnModelCreating(modelBuilder);
+            /*modelBuilder.Entity<IdentityRole>().HasData
+                (
+                new IdentityRole
+                {
+                    Name = "Manager",
+                    NormalizedName = "MANAGER"
+                },
+                new IdentityRole
+                {
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                }
+                );
+            modelBuilder.Entity<Company>().HasData
                 (
                 new Company
                 {
