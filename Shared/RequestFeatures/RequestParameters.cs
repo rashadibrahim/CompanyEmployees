@@ -24,5 +24,7 @@ namespace Shared.RequestFeatures
                 _pageSize = (value > maxPageSize) ? maxPageSize : value;
             }
         }
+
+
     }
 }

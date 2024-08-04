@@ -8,6 +8,7 @@ using NLog;
 using Microsoft.EntityFrameworkCore;
 using CompanyEmployees.Repository;
 using Contracts;
+using AspNetCoreRateLimit;
 
 namespace CompanyEmployees
 {
@@ -24,9 +25,12 @@ namespace CompanyEmployees
             builder.Services.ConfigureLoggerService();
             builder.Services.ConfigureeRepositoryManager();
             builder.Services.ConfigureServiceManager();
-
             builder.Services.ConfigureSqlContext(builder.Configuration);
+            builder.Services.ConfigureResponseCaching();
+            builder.Services.ConfigureRateLimitingOptions();
+            builder.Services.AddHttpContextAccessor();
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllers(); //method registers only the controllers in IServiceCollection and not Views or Pages because they are not required in the Web API project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             /*builder.Services.AddEndpointsApiExplorer();
@@ -47,8 +51,11 @@ namespace CompanyEmployees
                 //used to configure the application to trust and process forwarded headers. These headers are typically added by proxies or load balancers, providing information about the original client request.
                 ForwardedHeaders = ForwardedHeaders.All
             });
-            app.UseCors("CorsPolicy");
+            
+            app.UseIpRateLimiting();
 
+            app.UseCors("CorsPolicy");
+            app.UseResponseCaching();
 
             app.UseAuthorization();
 

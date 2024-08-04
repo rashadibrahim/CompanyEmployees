@@ -19,6 +19,7 @@ namespace CompanyEmployees.Controllers
             _service = service;
         }
         [HttpGet]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> GetCompanies([FromQuery] CompanyParameters companyParameters)
         {
             var pagedResult = await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false, companyParameters);
